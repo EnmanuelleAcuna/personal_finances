@@ -3,7 +3,7 @@ pool:
 
 variables:
   buildConfiguration: 'Debug'
-  wwwrootDir: 'labs_code_snippets/net_core_web_api/REST_API'
+  wwwrootDir: 'REST_API/'
   dotnetSdkVersion: '6.0.301'
 
 steps:
@@ -17,11 +17,11 @@ steps:
   displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: 'net_core_web_api/REST_API/REST_API.csproj'
+    projects: 'REST_API/REST_API.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
   inputs:
     command: 'build'
     arguments: '--no-restore --configuration $(buildConfiguration)'
-    projects: 'net_core_web_api/REST_API/REST_API.csproj'
+    projects: 'REST_API/REST_API.csproj'
