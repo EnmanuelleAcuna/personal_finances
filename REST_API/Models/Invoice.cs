@@ -10,6 +10,11 @@ public class DebitCardPaidInvoice : Invoice
 	public DebitCardPaidInvoice(Guid id) : base(id) { }
 }
 
+public class CreditCardPaidInvoice : Invoice
+{
+	public CreditCardPaidInvoice(Guid id) : base(id) { }
+}
+
 public class TransferPaidInvoice : Invoice
 {
 	public TransferPaidInvoice(Guid id) : base(id) { }

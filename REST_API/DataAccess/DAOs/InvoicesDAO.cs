@@ -32,7 +32,7 @@ public class InvoicesDAO : ICRUDBase<Invoice>
 													 .Where(i => i.Id == id)
 													 .FirstOrDefaultAsync();
 
-		if (invoiceDB == null) throw new NullReferenceException(message: nameof(invoiceDB));
+		if (invoiceDB == null) throw new NullReferenceException("Invoice not found.");
 
 		return ToDomainModel(invoiceDB);
 	}
@@ -53,9 +53,9 @@ public class InvoicesDAO : ICRUDBase<Invoice>
 	{
 		try
 		{
-			Invoices? invoiceDB = await _context.Invoices.FindAsync(invoice.Id.ToString());
+			Invoices? invoiceDB = await _context.Invoices.FindAsync(invoice.Id);
 
-			if (invoiceDB == null) throw new NullReferenceException(message: nameof(invoiceDB));
+			if (invoiceDB == null) throw new NullReferenceException("Invoice not found.");
 
 			invoiceDB.InvoiceDate = invoice.Date;
 			invoiceDB.Amount = invoice.Amount;
@@ -79,9 +79,9 @@ public class InvoicesDAO : ICRUDBase<Invoice>
 	{
 		if (_context.Invoices == null) throw new NullReferenceException("Entity set 'InvoicesDBContext.Invoices'  is null.");
 
-		Invoices? invoiceDB = await _context.Invoices.FindAsync(id.ToString());
+		Invoices? invoiceDB = await _context.Invoices.FindAsync(id);
 
-		if (invoiceDB == null) throw new NullReferenceException(message: nameof(invoiceDB));
+		if (invoiceDB == null) throw new NullReferenceException("Invoice not found.");
 
 		_context.Invoices.Remove(invoiceDB);
 		_context.Entry(invoiceDB).State = EntityState.Deleted;

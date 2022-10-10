@@ -23,136 +23,60 @@ namespace REST_API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IList<InvoiceResponseModel>>> GetAll()
 		{
-			try
-			{
-				IList<Invoice> invoices = await _invoicesRepo.ReadAll();
-				IEnumerable<InvoiceResponseModel> response = invoices.Select(i => new InvoiceResponseModel(i));
-				return Ok(response);
-			}
-			catch (NullReferenceException)
-			{
-				return NotFound();
-			}
+			IList<Invoice> invoices = await _invoicesRepo.ReadAll();
+			IEnumerable<InvoiceResponseModel> response = invoices.Select(i => new InvoiceResponseModel(i));
+			return Ok(response);
 		}
 
 		// GET: /invoices/jhds-ytrf-...
 		[HttpGet("{id}")]
-		public async Task<ActionResult<Invoice>> GetInvoice(string id)
+		public async Task<ActionResult<Invoice>> GetInvoiceById(string id)
 		{
-			try
-			{
-				if (string.IsNullOrEmpty(id)) return NotFound();
-
-				Invoice invoice = await _invoicesRepo.ReadById(new Guid(id));
-
-				InvoiceResponseModel response = new InvoiceResponseModel(invoice);
-
-				return Ok(response);
-			}
-			catch (NullReferenceException)
-			{
-				return NotFound();
-			}
+			if (string.IsNullOrEmpty(id)) return NotFound();
+			Invoice invoice = await _invoicesRepo.ReadById(new Guid(id));
+			InvoiceResponseModel response = new InvoiceResponseModel(invoice);
+			return Ok(response);
 		}
 
 		// POST: /invoices
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPost]
 		public async Task<ActionResult<Invoice>> Create(CreateInvoiceRequestModel model)
 		{
-			try
-			{
-				Invoice invoice = await model.ToDomainModel(_categoriesRepo);
-
-				await _invoicesRepo.Create(invoice);
-
-				// return CreatedAtAction("GetToDoItem", new { id = toDoItem.Id }, toDoItem);
-				return CreatedAtAction(nameof(GetInvoice), new { id = invoice.Id }, invoice);
-			}
-			catch (NullReferenceException ex)
-			{
-				return BadRequest(ex.Message);
-			}
-			catch (FormatException ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			Invoice invoice = await model.ToDomainModel(_categoriesRepo);
+			await _invoicesRepo.Create(invoice);
+			return CreatedAtAction(nameof(GetInvoiceById), new { id = invoice.Id }, invoice);
 		}
 
-		// PUT: /invoices/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		// PUT: /invoices/jhds-ytrf-...
 		[HttpPut("{id}")]
 		public async Task<IActionResult> Update(string id, UpdateInvoiceRequestModel model)
 		{
-			try
-			{
-				if (id != model.Id) throw new NullReferenceException(message: nameof(id));
-
-				Invoice invoice = await model.ToDomainModel(_categoriesRepo);
-
-				await _invoicesRepo.Update(invoice);
-
-				return NoContent();
-			}
-			catch (NullReferenceException ex)
-			{
-				return BadRequest(ex.Message);
-			}
-			catch (FormatException ex)
-			{
-				return BadRequest(ex.Message);
-			}
+			if (id != model.Id) throw new ArgumentException(message: "Invalid parameter.", paramName: nameof(id));
+			Invoice invoice = await model.ToDomainModel(_categoriesRepo);
+			await _invoicesRepo.Update(invoice);
+			return NoContent();
 		}
 
-		// DELETE: /invoices/5
-		// [HttpDelete("{id}")]
-		// public async Task<IActionResult> Delete(string id)
-		// {
-		// 	try
-		// 	{
-		// 		if (string.IsNullOrEmpty(id)) return NotFound();
-
-		// 		await _InvoicesRepo.Delete(new Guid(id));
-
-		// 		return NoContent();
-		// 	}
-		// 	catch (NullReferenceException)
-		// 	{
-		// 		return NotFound();
-		// 	}
-		// }
+		// DELTE: /invoices
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(string id, DeleteInvoiceRequestModel model)
+		{
+			if (id != model.Id) throw new ArgumentException(message: "Invalid parameter.", paramName: nameof(id));
+			Invoice invoice = await model.ToDomainModel(_invoicesRepo);
+			if (invoice == null) return NotFound();
+			await _invoicesRepo.Delete(invoice.Id);
+			return NoContent();
+		}
 
 		// GET: /invoices/paymentmethods
 		[HttpGet]
 		[Route("paymentmethods")]
 		public IActionResult GetPaymentMethods()
 		{
-			try
-			{
-				IList<string> paymentMethods = Enum.GetNames(typeof(PaymentMethods)).ToList();
-				string response = JsonSerializer.Serialize(paymentMethods);
-				return Ok(response);
-			}
-			catch (Exception)
-			{
-				return NotFound();
-			}
-		}
-
-		[HttpGet]
-		[Route("categories")]
-		public async Task<IActionResult> GetCategories()
-		{
-			try
-			{
-				IList<Category> categories = await _categoriesRepo.ReadAll();
-				string response = JsonSerializer.Serialize(categories);
-				return Ok(response);
-			}
-			catch (Exception)
-			{
-				return NotFound();
-			}
+			// IList<string> paymentMethods = Enum.GetNames(typeof(PaymentMethods)).ToList();
+			string response = JsonSerializer.Serialize(Extensions.GetPaymentMethodsList());
+			return Ok(response);
 		}
 	}
 }
+

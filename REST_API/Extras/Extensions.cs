@@ -5,7 +5,7 @@ namespace REST_API.Extras;
 
 public static class Extensions
 {
-	public static string ToMyString(this ToDoItem toDoItem)
+	public static string ToJsonString(this ToDoItem toDoItem)
 	{
 		return JsonSerializer.Serialize(toDoItem);
 	}
@@ -17,7 +17,9 @@ public static class Extensions
 			case PaymentMethods.Cash:
 				return "Cash";
 			case PaymentMethods.DebitCard:
-				return "DebitCard";
+				return "Debit card";
+			case PaymentMethods.CreditCard:
+				return "Credit card";
 			case PaymentMethods.Transfer:
 				return "Transfer";
 			default:
@@ -27,19 +29,34 @@ public static class Extensions
 
 	public static PaymentMethods ToPaymentMethod(this string paymentMethod)
 	{
-		return (PaymentMethods)Enum.Parse(typeof(PaymentMethods), paymentMethod);
+		// return (PaymentMethods)Enum.Parse(typeof(PaymentMethods), paymentMethod);
 
-		// switch (paymentMethod.ToLower())
-		// {
-		// 	case "cash":
-		// 		return PaymentMethod.Cash;
-		// 	case "debitcard":
-		// 		return PaymentMethod.DebitCard;
-		// 	case "transfer":
-		// 		return PaymentMethod.Transfer;
-		// 	default:
-		// 		return PaymentMethod.Cash;
-		// }
+		switch (paymentMethod.ToLower())
+		{
+			case "cash":
+				return PaymentMethods.Cash;
+			case "debitcard":
+			case "debit card":
+				return PaymentMethods.DebitCard;
+			case "creditcard":
+			case "credit card":
+				return PaymentMethods.CreditCard;
+			case "transfer":
+				return PaymentMethods.Transfer;
+			default:
+				throw new ArgumentException(message: "Invalid payment method.", paramName: nameof(paymentMethod));
+		}
+	}
+
+	public static Dictionary<string, string> GetPaymentMethodsList()
+	{
+		Dictionary<string, string> paymentMethods = new Dictionary<string, string>();
+		paymentMethods.Add("cash", "Cash");
+		paymentMethods.Add("debitcard", "Debit card");
+		paymentMethods.Add("creditcard", "Credit card");
+		paymentMethods.Add("transfer", "Transfer");
+
+		return paymentMethods;
 	}
 
 	public static PaymentMethods GetPaymentMethod(this Invoice invoice)
@@ -47,6 +64,7 @@ public static class Extensions
 		PaymentMethods paymentMethod = PaymentMethods.Cash;
 
 		if (invoice is DebitCardPaidInvoice) paymentMethod = PaymentMethods.DebitCard;
+		if (invoice is CreditCardPaidInvoice) paymentMethod = PaymentMethods.CreditCard;
 		if (invoice is TransferPaidInvoice) paymentMethod = PaymentMethods.Transfer;
 
 		return paymentMethod;
@@ -64,26 +82,18 @@ public static class Extensions
 	public static Guid ToGuid(this string text)
 	{
 		if (string.IsNullOrEmpty(text)) return new Guid();
-
 		if (string.IsNullOrWhiteSpace(text)) return new Guid();
-
 		Guid guid = new Guid(text);
-
 		return guid;
 	}
 
 	public static bool IsValid(this Guid secret)
 	{
 		if (secret.Equals(Guid.Empty)) return false;
-
 		if (!Guid.TryParse(secret.ToString(), out Guid idObjeto)) return false;
-
 		if (secret.Equals(new Guid())) return false;
-
 		Guid uuid = new Guid("5a16b6b7-cddb-4752-9eb0-54abf2d43a68");
-
 		if (secret.Equals(uuid)) return true;
-
 		return false;
 	}
 }

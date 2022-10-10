@@ -26,22 +26,30 @@ public class Program
 		builder.Services.AddScoped<ICRUDBase<Category>, CategoriesDAO>();
 		builder.Services.AddScoped<ICRUDBase<Invoice>, InvoicesDAO>();
 
-		WebApplication webApp = builder.Build();
+		builder.Services.AddEndpointsApiExplorer();
 
-		// Configure the HTTP request pipeline.
-		if (webApp.Environment.IsDevelopment())
+		builder.Services.AddSwaggerGen();
+
+		WebApplication app = builder.Build();
+
+		if (app.Environment.IsDevelopment())
 		{
-			webApp.UseDeveloperExceptionPage();
-			// webApp.UseSwagger();
-			// webApp.UseSwaggerUI();
+			app.UseExceptionHandler("/error-development");
+		}
+		else
+		{
+			app.UseExceptionHandler("/error");
 		}
 
-		webApp.UseHttpsRedirection();
+		app.UseSwagger();
+		app.UseSwaggerUI();
 
-		webApp.UseAuthorization();
+		app.UseHttpsRedirection();
 
-		webApp.MapControllers();
+		app.UseAuthorization();
 
-		webApp.Run();
+		app.MapControllers();
+
+		app.Run();
 	}
 }

@@ -8,7 +8,7 @@ public class InvoiceResponseModel
 	{
 		Id = invoice.Id.ToString();
 		PaymentMethod = invoice.GetPaymentMethod().ToString();
-		Date = invoice.Date.ToString("dd/MM/yyyy");
+		Date = invoice.Date.ToString();
 		Amount = invoice.Amount;
 		Payee = String.IsNullOrEmpty(invoice.Payee) ? String.Empty : invoice.Payee;
 		CategoryName = String.IsNullOrEmpty(invoice.Category?.Name) ? String.Empty : invoice.Category.Name;

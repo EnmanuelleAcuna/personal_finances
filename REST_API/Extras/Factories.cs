@@ -12,6 +12,8 @@ public static class Factories
 				return new TransferPaidInvoice(Guid.NewGuid());
 			case PaymentMethods.DebitCard:
 				return new DebitCardPaidInvoice(Guid.NewGuid());
+			case PaymentMethods.CreditCard:
+				return new CreditCardPaidInvoice(Guid.NewGuid());
 			case PaymentMethods.Cash:
 				return new CashPaidInvoice(Guid.NewGuid());
 			default:
@@ -27,6 +29,8 @@ public static class Factories
 				return new TransferPaidInvoice(id);
 			case PaymentMethods.DebitCard:
 				return new DebitCardPaidInvoice(id);
+			case PaymentMethods.CreditCard:
+				return new CreditCardPaidInvoice(id);
 			case PaymentMethods.Cash:
 				return new CashPaidInvoice(id);
 			default:

@@ -27,7 +27,7 @@ public class CategoriesDAO : ICRUDBase<Category>
 
 		Categories? categoryDB = await _context.Categories.FindAsync(id);
 
-		if (categoryDB == null) throw new NullReferenceException(message: nameof(categoryDB));
+		if (categoryDB == null) throw new NullReferenceException("Category not found.");
 
 		return ToDomainModel(categoryDB);
 	}
@@ -48,9 +48,9 @@ public class CategoriesDAO : ICRUDBase<Category>
 	{
 		try
 		{
-			Categories? categoryDB = await _context.Categories.FindAsync(category.Id.ToString());
+			Categories? categoryDB = await _context.Categories.FindAsync(category.Id);
 
-			if (categoryDB == null) throw new NullReferenceException(message: nameof(categoryDB));
+			if (categoryDB == null) throw new NullReferenceException("Category not found.");
 
 			categoryDB.Nombre = String.IsNullOrEmpty(category.Name) ? String.Empty : category.Name;
 
@@ -69,9 +69,9 @@ public class CategoriesDAO : ICRUDBase<Category>
 	{
 		if (_context.Categories == null) throw new NullReferenceException("Entity set 'InvoicesDBContext.Categories'  is null.");
 
-		Categories? categoryDB = await _context.Categories.FindAsync(id.ToString());
+		Categories? categoryDB = await _context.Categories.FindAsync(id);
 
-		if (categoryDB == null) throw new NullReferenceException(message: nameof(categoryDB));
+		if (categoryDB == null) throw new NullReferenceException("Category not found.");
 
 		_context.Categories.Remove(categoryDB);
 		_context.Entry(categoryDB).State = EntityState.Deleted;

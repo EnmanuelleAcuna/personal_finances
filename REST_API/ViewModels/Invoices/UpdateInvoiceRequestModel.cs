@@ -21,11 +21,11 @@ public class UpdateInvoiceRequestModel
 		if (String.IsNullOrEmpty(Date)) throw new NullReferenceException(message: nameof(Date));
 		if (String.IsNullOrEmpty(Payee)) throw new NullReferenceException(message: nameof(Payee));
 		if (String.IsNullOrEmpty(CategoryId)) throw new NullReferenceException(message: nameof(CategoryId));
-		if (String.IsNullOrEmpty(Secret) || new Guid(Secret).IsValid()) throw new NullReferenceException(message: nameof(Secret));
+		if (String.IsNullOrEmpty(Secret) || !new Guid(Secret).IsValid()) throw new NullReferenceException(message: nameof(Secret));
 
 		Invoice invoice = Factories.GetInvoice(PaymentMethod.ToPaymentMethod(), new Guid(Id));
 		Category category = await categoriesRepo.ReadById(new Guid(CategoryId));
-		invoice.FillInvoice(Date.ToDateTime(), Amount, Payee, Detail, category);
+		invoice.FillInvoice(Convert.ToDateTime(Date), Amount, Payee, Detail, category);
 		return invoice;
 	}
 }

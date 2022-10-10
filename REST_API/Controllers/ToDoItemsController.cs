@@ -5,7 +5,7 @@ using REST_API.Models;
 
 namespace REST_API.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
@@ -21,7 +21,6 @@ public class ToDoItemsController : ControllerBase
 	public async Task<ActionResult<IEnumerable<ToDoItemDTO>>> GetToDoItems()
 	{
 		if (_context.ToDoItems == null) return NotFound();
-
 		return await _context.ToDoItems.Select(x => ItemToDTO(x)).ToListAsync();
 	}
 
@@ -30,11 +29,8 @@ public class ToDoItemsController : ControllerBase
 	public async Task<ActionResult<ToDoItemDTO>> GetToDoItem(long id)
 	{
 		if (_context.ToDoItems == null) return NotFound();
-
 		ToDoItem? toDoItem = await _context.ToDoItems.FindAsync(id);
-
 		if (toDoItem == null) return NotFound();
-
 		return ItemToDTO(toDoItem);
 	}
 
@@ -52,17 +48,13 @@ public class ToDoItemsController : ControllerBase
 		{
 			Name = String.IsNullOrEmpty(toDoItemDTO.Name) ? String.Empty : toDoItemDTO.Name,
 			IsComplete = toDoItemDTO.IsComplete
-
 		};
 
 		_context.ToDoItems.Add(toDoItem);
 		await _context.SaveChangesAsync();
 
 		// return CreatedAtAction("GetToDoItem", new { id = toDoItem.Id }, toDoItem);
-		return CreatedAtAction(nameof(GetToDoItem), new
-		{
-			id = toDoItem.Id
-		}, ItemToDTO(toDoItem));
+		return CreatedAtAction(nameof(GetToDoItem), new { id = toDoItem.Id }, ItemToDTO(toDoItem));
 	}
 
 	// PUT: api/ToDoItems/5
