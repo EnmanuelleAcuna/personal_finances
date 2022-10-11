@@ -1,0 +1,78 @@
+﻿@model MVC_Client.Models.CreateInvoiceRequestModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Register new invoice</h4>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-2">
+                <label asp-for="PaymentMethod" class="control-label"></label>
+                <select asp-for="PaymentMethod" class="form-control form-control-sm" asp-items='@(List<SelectListItem>)ViewData["paymentMethods"]'>
+                    <option value="">Please select one</option>
+                </select>
+                @* @Html.DropDownListFor(m => m.PaymentMethod, new SelectList(ViewData["paymentMethods"], "Value", "Text", "Please select one"), new { @class =
+                    "form-control form-control-sm" }) *@
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="Category" class="form-control form-control-sm" asp-items='@(List<SelectListItem>)ViewData["categories"]'>
+                    <option value="">Please select one</option>
+                </select>
+                @* @Html.DropDownListFor(m => m.Category, new SelectList(ViewData["categories"], "Value", "Text", "Please select one"), new { @class =
+                    "form-control form-control-sm" }) *@
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Date" class="control-label"></label>
+                <input type="text" asp-for="Date" placeholder="2022-04-30" class="form-control form-control-sm" autocomplete="off" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" placeholder="00.0" class="form-control form-control-sm" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Payee" class="control-label"></label>
+                <input asp-for="Payee" class="form-control form-control-sm" />
+                <span asp-validation-for="Payee" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Detail" class="control-label"></label>
+                <input asp-for="Detail" class="form-control form-control-sm" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-sm btn-primary" />
+                <a asp-action="Index" class="btn btn-sm btn-secondary">Back to list</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+await Html.RenderPartialAsync("_jQueryUIPartial");
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $("#Date").datepicker({ dateFormat: ' yy-mm-dd' });
+        }); </script>
+}
+}
