@@ -15,7 +15,7 @@ public class CreateInvoiceRequestModel
 
 	[Required(ErrorMessage = "Please enter a date")]
 	[RegularExpression("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", ErrorMessage = "Please enter a valid date.")]
-	[DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]
+	// [DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]
 	public string? Date { get; set; }
 
 	[Required(ErrorMessage = "Please specify an amount.")]
@@ -28,6 +28,8 @@ public class CreateInvoiceRequestModel
 	public string Payee { get; set; } = String.Empty;
 
 	public string? Detail { get; set; }
+
+	public string? CategoryId { get; set; }
 
 	public string Secret { get; set; } = "5a16b6b7-cddb-4752-9eb0-54abf2d43a68";
 }
