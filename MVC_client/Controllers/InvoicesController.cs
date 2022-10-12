@@ -19,7 +19,7 @@ public class InvoicesController : Controller
 		_configuration = configuration;
 
 		// _invoicesAPIBaseURL = _configuration.GetValue<string>("InvoicesAPIBaseURL");
-		_invoicesAPIBaseURL = _configuration.GetValue<string>("LocalInvoicesAPIBaseURL");
+		_invoicesAPIBaseURL = _configuration.GetValue<string>("InvoicesAPIBaseURL");
 	}
 
 	[HttpGet]
