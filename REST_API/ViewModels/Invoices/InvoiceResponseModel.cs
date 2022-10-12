@@ -8,7 +8,7 @@ public class InvoiceResponseModel
 	{
 		Id = invoice.Id.ToString();
 		PaymentMethod = invoice.GetPaymentMethod().ToString();
-		Date = invoice.Date.ToString();
+		Date = invoice.Date;
 		Amount = invoice.Amount;
 		Payee = String.IsNullOrEmpty(invoice.Payee) ? String.Empty : invoice.Payee;
 		CategoryName = String.IsNullOrEmpty(invoice.Category?.Name) ? String.Empty : invoice.Category.Name;
@@ -16,7 +16,7 @@ public class InvoiceResponseModel
 
 	public string Id { get; }
 	public string PaymentMethod { get; }
-	public string Date { get; }
+	public DateTime Date { get; }
 	public decimal Amount { get; }
 	public string Payee { get; }
 	public string CategoryName { get; }
