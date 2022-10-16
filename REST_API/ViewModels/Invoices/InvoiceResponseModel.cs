@@ -7,7 +7,7 @@ public class InvoiceResponseModel
 	public InvoiceResponseModel(Invoice invoice)
 	{
 		Id = invoice.Id.ToString();
-		PaymentMethod = invoice.GetPaymentMethod().ToString();
+		PaymentMethod = invoice.GetPaymentMethod().GetName();
 		Date = invoice.Date;
 		Amount = invoice.Amount;
 		Payee = String.IsNullOrEmpty(invoice.Payee) ? String.Empty : invoice.Payee;

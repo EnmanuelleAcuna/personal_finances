@@ -10,7 +10,7 @@ public static class Extensions
 		return JsonSerializer.Serialize(toDoItem);
 	}
 
-	public static string ToString(this PaymentMethods paymentMethod)
+	public static string GetName(this PaymentMethods paymentMethod)
 	{
 		switch (paymentMethod)
 		{
@@ -51,6 +51,7 @@ public static class Extensions
 	public static Dictionary<string, string> GetPaymentMethodsList()
 	{
 		Dictionary<string, string> paymentMethods = new Dictionary<string, string>();
+
 		paymentMethods.Add("cash", "Cash");
 		paymentMethods.Add("debitcard", "Debit card");
 		paymentMethods.Add("creditcard", "Credit card");
@@ -61,13 +62,12 @@ public static class Extensions
 
 	public static PaymentMethods GetPaymentMethod(this Invoice invoice)
 	{
-		PaymentMethods paymentMethod = PaymentMethods.Cash;
+		if (invoice is CashPaidInvoice) return PaymentMethods.Cash;
+		if (invoice is DebitCardPaidInvoice) return PaymentMethods.DebitCard;
+		if (invoice is CreditCardPaidInvoice) return PaymentMethods.CreditCard;
+		if (invoice is TransferPaidInvoice) return PaymentMethods.Transfer;
 
-		if (invoice is DebitCardPaidInvoice) paymentMethod = PaymentMethods.DebitCard;
-		if (invoice is CreditCardPaidInvoice) paymentMethod = PaymentMethods.CreditCard;
-		if (invoice is TransferPaidInvoice) paymentMethod = PaymentMethods.Transfer;
-
-		return paymentMethod;
+		throw new ArgumentException(message: "Invalid payment method.");
 	}
 
 	public static DateTime ToDateTime(this string dateTime)
