@@ -1,4 +1,7 @@
 # personal_finances
 
-## Generate EF model from DB (scaffold databasefirst)
-dotnet ef dbcontext scaffold Name="Invoices" Microsoft.EntityFrameworkCore.SqlServer --context InvoicesDBContext --output-dir DataAccess/EntityFramework --schema fin --no-pluralize --no-build --force
+## Description
+Application to register expenses.
+
+## Technical details
+Console application that stores informtion in Excel file.
