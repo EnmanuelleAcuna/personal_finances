@@ -1,11 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalFincancesApp", "net_core_web_api\PersonalFincancesApp\PersonalFincancesApp.csproj", "{C69C0DC0-EA48-4F83-AD5F-ACEBF2B2013E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC_Client", "asp.net_mvc\mvc_client\MVC_Client.csproj", "{ECB25320-1D94-405D-B8E7-AE3B8825769D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{C69C0DC0-EA48-4F83-AD5F-ACEBF2B2013E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C69C0DC0-EA48-4F83-AD5F-ACEBF2B2013E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C69C0DC0-EA48-4F83-AD5F-ACEBF2B2013E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECB25320-1D94-405D-B8E7-AE3B8825769D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECB25320-1D94-405D-B8E7-AE3B8825769D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECB25320-1D94-405D-B8E7-AE3B8825769D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECB25320-1D94-405D-B8E7-AE3B8825769D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
