@@ -15,5 +15,6 @@ internal enum Categories
 	Health,
 	Fuel,
 	Car,
-	Recreation
+	Recreation,
+	Other
 }
