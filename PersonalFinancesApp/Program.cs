@@ -44,7 +44,7 @@ class Program
 	{
 		Console.WriteLine("Date (dd/mm/yyyy):");
 		var userDateInput = Console.ReadLine();
-		var date = new DateTime(Convert.ToInt16(userDateInput.Substring(6, 4)), Convert.ToInt16(userDateInput.Substring(3, 2)), Convert.ToInt16(userDateInput[..2]));
+		var date = userDateInput.ToDateTime();
 
 		Console.WriteLine("Payee:");
 		var payee = Console.ReadLine();
